@@ -8,10 +8,17 @@ export interface ServerOptions {
   PRISMA_DEBUG: boolean;
 }
 
-export default ({PRISMA_ENDPOINT, PRISMA_SECRET, PRISMA_DEBUG}: ServerOptions) => {
+export default ({
+  PRISMA_ENDPOINT,
+  PRISMA_SECRET,
+  PRISMA_DEBUG,
+}: ServerOptions) => {
   const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
+    resolverValidationOptions: {
+      requireResolversForResolveType: false,
+    },
     context: req => ({
       ...req,
       db: new Prisma({
